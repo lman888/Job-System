@@ -9,12 +9,23 @@ void func1()
 	}
 }
 
+void func2()
+{
+	for (int i = 0; i < 10; i++)
+	{
+		std::cout << "RA RA RASPUTIN: "<< i << std::endl;
+	}
+}
+
 int main()
 {
 
 	Job_System jobSystem;
 
-	jobSystem.Execute(func1);
+	jobSystem.AddFunction(func1);
+	//jobSystem.AddFunction(func2);
+
+	jobSystem.Execute();
 
 	system("pause");
 	return 0;
