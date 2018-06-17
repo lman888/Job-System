@@ -3,10 +3,13 @@
 
 void func1()
 {
+	std::cout << "Func1 has been entered" << std::endl;
+
 	for (int i = 0; i < 10; i++)
 	{
 		std::cout << i << std::endl;
 	}
+
 }
 
 void func2()
@@ -23,7 +26,7 @@ int main()
 	Job_System jobSystem;
 
 	jobSystem.AddFunction(func1);
-	//jobSystem.AddFunction(func2);
+	jobSystem.AddFunction(func2);
 
 	jobSystem.Execute();
 

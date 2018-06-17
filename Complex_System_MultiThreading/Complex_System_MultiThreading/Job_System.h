@@ -15,6 +15,8 @@ public:
 	void AddFunction(void(*FuncPtr)());						//Adds user functions into the array		
 
 protected:
+	typedef void(*jobFunction)(void);
+
 	std::thread myThread;									//Thread Creation
 	std::thread myThread2;
 	std::thread myThread3;		

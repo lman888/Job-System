@@ -14,33 +14,39 @@ Job_System::~Job_System()
 void Job_System::Execute()
 {
 
-	auto jobFunction = addFuncs;
-
 	//Creation of a Lambda Function
 	myThread = std::thread([&]()		//Takes in the entire class
 	{
 		myMutex.lock();						//Locks the mutex so no other data can acess it
-
-		addFuncs.begin();
+	
+		for (int i = 0; i < addFuncs.size(); i++)
+		{
+			((jobFunction)addFuncs[i])();
+		}
 
 		std::cout << "Thread is in the Lambda" << std::endl;
+
+		addFuncs.pop_back();
 
 		myMutex.unlock();					//Unlocks the mutex so other data may enter to be processed
 	});
 
-	//myThread2 = std::thread([&]()
-	//{
-	//	myMutex2.lock();
+	myThread2 = std::thread([&]()
+	{
+		myMutex2.lock();
 
-	//	jobFunction;
+		for (int i = 0; i < addFuncs.size(); i++)
+		{
+			((jobFunction)addFuncs[i])();
+		}
 
-	//	myMutex2.unlock();
-	//});
+		addFuncs.pop_back();
+
+		myMutex2.unlock();
+	});
 
 	myThread.join();						//Joins the thread back into the Main thread
-	//myThread2.join();
-
-	jobFunction.pop_back();
+	myThread2.join();
 }
 
 void Job_System::AddFunction(void(*FuncPtr)())
