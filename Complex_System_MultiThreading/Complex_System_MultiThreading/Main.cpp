@@ -1,34 +1,46 @@
 #include <iostream>
 #include "Job_System.h"
+#include "Job.h"
+#include <chrono>	//Allows the use of time intervals
+using namespace std::chrono_literals;	//Allows the use of string after the number
 
-void func1()
+class TestJob : public Job
 {
-	std::cout << "Func1 has been entered" << std::endl;
+public:
+	std::string m_fileName;	//Used to control job executing
+	char* m_data;			//Holds the processed results
 
-	for (int i = 0; i < 10; i++)
+	void Execute() override
 	{
-		std::cout << i << std::endl;
+		//Test
+		std::cout << "Starting File " << m_fileName.c_str() << '\n';
+		std::this_thread::sleep_for(2s);
+		m_data = new char[1024];
+		std::cout << "FILE SIZE";
 	}
-
-}
-
-void func2()
-{
-	for (int i = 0; i < 10; i++)
-	{
-		std::cout << "RA RA RASPUTIN: "<< i << std::endl;
-	}
-}
+};
 
 int main()
 {
 
 	Job_System jobSystem;
 
-	jobSystem.AddFunction(func1);
-	jobSystem.AddFunction(func2);
+	jobSystem.AddThreads(4);
 
-	jobSystem.Execute();
+	while (true)
+	{
+		for (int i = 0; i < 10; i++)
+		{
+			TestJob* job = new TestJob();
+			job->m_fileName = "FileToLoad.txt";
+			jobSystem.AddJob(job);
+			job->Execute();
+		}
+	}
+
+	std::this_thread::sleep_for(5s);	//puts the main thread to sleep for 5 seconds
+
+	jobSystem.StopThread();
 
 	system("pause");
 	return 0;

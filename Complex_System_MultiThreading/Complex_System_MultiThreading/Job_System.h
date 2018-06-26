@@ -4,6 +4,9 @@
 #include <thread>
 #include <mutex>
 #include <condition_variable>
+#include <list>
+#include <queue>
+#include "Job.h"
 
 class Job_System
 {
@@ -11,22 +14,25 @@ public:
 	Job_System();
 	~Job_System();
 
-	void Execute();							//Executes the functions
-	void AddFunction(void(*FuncPtr)());						//Adds user functions into the array		
+	void AddThreads(int value);
+	void StopThread();
 
+	//bool JobCompleted(Job& completedJob);			//Checks if the job is complete
 
+	void AddJob(Job* job);						//Adds user functions into the array		
+	void CheckJob(Job& check);
 
 protected:
-	typedef void(*jobFunction)(void);
-
-	std::thread myThread;									//Thread Creation
-	std::thread myThread2;
-	std::thread myThread3;		
+	static void ExecuteJobs(Job_System* system);					//Checks if the job is completed
 
 	//Variables
-	std::vector<void*>				addFuncs;				//Array of Voids
-	std::vector<std::thread>	    myThreads;				//Aray of Threads
-	std::mutex						myMutex;				//Mutex Creation
-	std::mutex						myMutex2;				//Mutex Creation
-	std::condition_variable			cv;						//Condition Variable Creation
+	std::queue<Job*>		  m_jobs;
+	std::vector<std::thread>  m_threads;
+	std::mutex				  m_mutex;
+
+	//std::list<Job*>			  m_completedJobs;
+	//std::mutex				  m_completedjobM;
+
+	bool m_isRunning;
+	bool m_isComplete;
 };
