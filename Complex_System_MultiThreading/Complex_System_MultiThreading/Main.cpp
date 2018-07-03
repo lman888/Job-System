@@ -43,7 +43,7 @@ int main()
 
 	while (!demoJobs.empty())
 	{
-		auto& job = demoJobs.back();
+		auto& job = demoJobs.back();	
 		bool completed = jobSystem.CheckJob(job);
 		if (completed)
 		{
