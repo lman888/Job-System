@@ -43,8 +43,13 @@ int main()
 
 	while (!demoJobs.empty())
 	{
+<<<<<<< HEAD
 		auto& job = demoJobs.back();				//Cast the last variable in the array to the memory address of a job
 		bool completed = jobSystem.CheckJob(job);	//Create a bool to check if there is a job in the array
+=======
+		auto& job = demoJobs.back();	
+		bool completed = jobSystem.CheckJob(job);
+>>>>>>> d65dce8861c981579d9709a07a10050f58010768
 		if (completed)
 		{
 			std::cout << "Finished the job, awesome!\n";
